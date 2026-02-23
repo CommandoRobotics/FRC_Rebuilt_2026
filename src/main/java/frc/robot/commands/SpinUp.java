@@ -25,7 +25,10 @@ public class SpinUp extends Command {
   @Override
   public void initialize() {
     fuelSubsystem
-        .setIntakeLauncherRoller(
+        .setIntakeRoller(
+            SmartDashboard.getNumber("Launching spin-up intake value", INTAKE_SPIN_UP_PRE_LANCH_PERCENT));
+    fuelSubsystem
+        .setLauncherRoller(
             SmartDashboard.getNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT));
     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Launching spin-up feeder value", INDEXER_SPIN_UP_PRE_LAUNCH_PERCENT));
   }

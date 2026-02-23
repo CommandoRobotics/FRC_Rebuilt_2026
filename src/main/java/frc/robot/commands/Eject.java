@@ -24,10 +24,11 @@ public class Eject extends Command {
   // appropriate values for ejecting
   @Override
   public void initialize() {
+    fuelSubsystem.setIntakeRoller(-1 * SmartDashboard.getNumber("Intaking intake roller value", INTAKE_EJECT_PERCENT));
     fuelSubsystem
-        .setIntakeLauncherRoller(
-             -1 * SmartDashboard.getNumber("Intaking intake roller value", INTAKE_EJECT_PERCENT));
-     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking intake roller value", INDEXER_LAUNCHING_PERCENT));
+        .setLauncherRoller(
+             -1 * SmartDashboard.getNumber("Intaking intake roller value", LAUNCHER_EJECT_PERCENT));
+     fuelSubsystem.setFeederRoller(SmartDashboard.getNumber("Intaking intake roller value", IDEXER_EJECT_PERCENT));
   }
 
   // Called every time the scheduler runs while the command is scheduled. This
@@ -39,7 +40,8 @@ public class Eject extends Command {
   // Called once the command ends or is interrupted. Stop the rollers
   @Override
   public void end(boolean interrupted) {
-    fuelSubsystem.setIntakeLauncherRoller(0);
+    fuelSubsystem.setIntakeRoller(0);
+    fuelSubsystem.setLauncherRoller(0);
     fuelSubsystem.setFeederRoller(0);
   }
 

@@ -21,16 +21,24 @@ import frc.robot.Constants;
 import static frc.robot.Constants.FuelConstants.*;
 
 public class CANFuelSubsystem extends SubsystemBase {
-  private final SparkMax LeftIntakeLauncher;
-  private final SparkMax RightIntakeLauncher;
+  private final SparkMax Intake;
+  private final SparkMax LeftLauncher;
+  private final SparkMax RightLauncher;
   private final SparkMax Indexer;
 
   /** Creates a new CANBallSubsystem. */
   public CANFuelSubsystem() {
     // create brushed motors for each of the motors on the launcher mechanism
-    LeftIntakeLauncher = new SparkMax(LEFT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
-    RightIntakeLauncher = new SparkMax(RIGHT_INTAKE_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
+    Intake = new SparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
+    LeftLauncher = new SparkMax(LEFT_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
+    RightLauncher = new SparkMax(RIGHT_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     Indexer = new SparkMax(INDEXER_MOTOR_ID, MotorType.kBrushed);
+
+    // create the configuration for the intake roller, set a current limit and apply
+    // the config to the controller
+    SparkMaxConfig intakeConfig = new SparkMaxConfig();
+    intakeConfig.smartCurrentLimit(INDEXER_MOTOR_CURRENT_LIMIT);
+    Intake.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // create the configuration for the feeder roller, set a current limit and apply
     // the config to the controller
@@ -46,9 +54,9 @@ public class CANFuelSubsystem extends SubsystemBase {
     launcherConfig.smartCurrentLimit(LAUNCHER_MOTOR_CURRENT_LIMIT);
     launcherConfig.voltageCompensation(12);
     launcherConfig.idleMode(IdleMode.kCoast);
-    RightIntakeLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    RightLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     launcherConfig.inverted(true);
-    LeftIntakeLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    LeftLauncher.configure(launcherConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     // put default values for various fuel operations onto the dashboard
     // all commands using this subsystem pull values from the dashbaord to allow
@@ -56,27 +64,35 @@ public class CANFuelSubsystem extends SubsystemBase {
     // with your new values. For more information, see the Software Guide.
     SmartDashboard.putNumber("Intaking feeder roller value", INDEXER_INTAKING_PERCENT);
     SmartDashboard.putNumber("Intaking intake roller value", INTAKE_INTAKING_PERCENT);
+    SmartDashboard.putNumber("Launching intake roller value", INTAKE_LAUNCHING_PERCENT);
     SmartDashboard.putNumber("Launching feeder roller value", INDEXER_LAUNCHING_PERCENT);
     SmartDashboard.putNumber("Launching launcher roller value", LAUNCHING_LAUNCHER_PERCENT);
     //SmartDashboard.putNumber("Spin-up feeder roller value", SPIN_UP_FEEDER_VOLTAGE);
   }
 
   // A method to set the voltage of the intake roller
-  public void setIntakeLauncherRoller(double power) {
-    LeftIntakeLauncher.set(power);
-    RightIntakeLauncher.set(power); // positive for shooting
+  public void setIntakeRoller(double power) {
+    Intake.set(power); // positive for shooting
   }
 
-  // A method to set the voltage of the intake roller
+  // A method to set the voltage of the launcher roller
+  public void setLauncherRoller(double power) {
+    Intake.set(power);
+    LeftLauncher.set(power);
+    RightLauncher.set(power); // positive for shooting
+  }
+
+  // A method to set the voltage of the feeder roller
   public void setFeederRoller(double power) {
     Indexer.set(power); // positive for shooting
   }
 
   // A method to stop the rollers
   public void stop() {
+    Intake.set(0);
     Indexer.set(0);
-    LeftIntakeLauncher.set(0);
-    RightIntakeLauncher.set(0);
+    LeftLauncher.set(0);
+    RightLauncher.set(0);
   }
 
   @Override
