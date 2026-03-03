@@ -32,7 +32,7 @@ public class CANFuelSubsystem extends SubsystemBase {
     Intake = new SparkMax(INTAKE_MOTOR_ID, MotorType.kBrushless);
     LeftLauncher = new SparkMax(LEFT_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
     RightLauncher = new SparkMax(RIGHT_LAUNCHER_MOTOR_ID, MotorType.kBrushless);
-    Indexer = new SparkMax(INDEXER_MOTOR_ID, MotorType.kBrushed);
+    Indexer = new SparkMax(INDEXER_MOTOR_ID, MotorType.kBrushless);
 
     // create the configuration for the intake roller, set a current limit and apply
     // the config to the controller
@@ -77,7 +77,6 @@ public class CANFuelSubsystem extends SubsystemBase {
 
   // A method to set the voltage of the launcher roller
   public void setLauncherRoller(double power) {
-    Intake.set(power);
     LeftLauncher.set(power);
     RightLauncher.set(power); // positive for shooting
   }

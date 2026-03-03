@@ -25,10 +25,10 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   public CANDriveSubsystem() {
     // create brushed motors for drive
-    leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushed);
-    leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushed);
-    rightLeader = new SparkMax(RIGHT_LEADER_ID, MotorType.kBrushed);
-    rightFollower = new SparkMax(RIGHT_FOLLOWER_ID, MotorType.kBrushed);
+    leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushless);
+    leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushless);
+    rightLeader = new SparkMax(RIGHT_LEADER_ID, MotorType.kBrushless);
+    rightFollower = new SparkMax(RIGHT_FOLLOWER_ID, MotorType.kBrushless);
 
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);
@@ -49,12 +49,12 @@ public class CANDriveSubsystem extends SubsystemBase {
     SparkMaxConfig config = new SparkMaxConfig();
     config.voltageCompensation(12);
     config.smartCurrentLimit(DRIVE_MOTOR_CURRENT_LIMIT);
-    config.idleMode(IdleMode.kBrake);
+    config.idleMode(IdleMode.kCoast);
 
     // Set configuration to follow each leader and then apply it to corresponding
     // follower. Resetting in case a new controller is swapped
     // in and persisting in case of a controller reset due to breaker trip
-    config.follow(leftLeader);
+    //config.follow(leftLeader);
     leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     config.follow(rightLeader);
     rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -75,6 +75,11 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   public void driveArcade(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
+  }
+
+  public void test(double xSpeed) {
+    rightLeader.set(0.5);
+    //rightFollower.set(-0.5);
   }
 
 }

@@ -31,6 +31,7 @@ public class AutoDrive extends Command {
   // arcade drive object
   @Override
   public void execute() {
+    //driveSubsystem.test(0.5);
     driveSubsystem.driveArcade(xSpeed, zRotation);
   }
 

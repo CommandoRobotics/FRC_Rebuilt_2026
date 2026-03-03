@@ -22,10 +22,10 @@ public final class Constants {
 
   public static final class DriveConstants {
     // Motor controller IDs for drivetrain motors
-    public static final int LEFT_LEADER_ID = 2;
-    public static final int LEFT_FOLLOWER_ID = 3;
+    public static final int LEFT_LEADER_ID = 3;
+    public static final int LEFT_FOLLOWER_ID = 4;
     public static final int RIGHT_LEADER_ID = 1;
-    public static final int RIGHT_FOLLOWER_ID = 4;
+    public static final int RIGHT_FOLLOWER_ID = 2;
 
     // Current limit for drivetrain motors. 60A is a reasonable maximum to reduce
     // likelihood of tripping breakers or damaging CIM motors
@@ -44,14 +44,15 @@ public final class Constants {
     public static final int LAUNCHER_MOTOR_CURRENT_LIMIT = 80;
 
     // All values likely need to be tuned based on your robot
-    public static final double INDEXER_INTAKING_PERCENT = -.8; 
-    public static final double INDEXER_LAUNCHING_PERCENT = 0.6;
+    public static final double INDEXER_INTAKING_PERCENT = -.4; 
+    public static final double INDEXER_LAUNCHING_PERCENT = 0.8;
     public static final double INDEXER_SPIN_UP_PRE_LAUNCH_PERCENT = -0.5;
 
     public static final double INTAKE_INTAKING_PERCENT = 0.6;
-    public static final double INTAKE_LAUNCHING_PERCENT = 0.6;
-    public static final double INTAKE_SPIN_UP_PRE_LANCH_PERCENT = 0.6;
-    public static final double LAUNCHING_LAUNCHER_PERCENT = .85;
+    public static final double INTAKE_LAUNCHING_PERCENT = -0.6;
+    public static final double INTAKE_SPIN_UP_PRE_LANCH_PERCENT = 0.25;
+    public static final double LAUNCHING_LAUNCHER_PERCENT = -0.75;
+    //public static final double LAUNCHING_LAUNCHER_PERCENT = -0.85;
     public static final double INTAKE_EJECT_PERCENT = -0.8;
     public static final double IDEXER_EJECT_PERCENT = 0.6;
     public static final double LAUNCHER_EJECT_PERCENT = -0.5;
@@ -79,7 +80,7 @@ public final class Constants {
 
     // This value is multiplied by the joystick value when rotating the robot to
     // help avoid turning too fast and beign difficult to control
-    public static final double DRIVE_SCALING = 0.7;
+    public static final double DRIVE_SCALING = 1.0;
     public static final double ROTATION_SCALING = 0.8;
   } 
 }

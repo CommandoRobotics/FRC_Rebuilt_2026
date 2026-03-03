@@ -24,6 +24,7 @@ public class Launch extends Command {
   // appropriate values for intaking
   @Override
   public void initialize() {
+
     fuelSubsystem
         .setIntakeRoller(
             SmartDashboard.getNumber("Launching intake roller value", INTAKE_LAUNCHING_PERCENT));
