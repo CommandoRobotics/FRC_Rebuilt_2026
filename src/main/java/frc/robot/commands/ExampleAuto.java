@@ -15,17 +15,22 @@ import frc.robot.subsystems.ClimberSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ExampleAuto extends SequentialCommandGroup {
   /** Creates a new ExampleAuto. */
-  public ExampleAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem) {
+  public ExampleAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem ballSubsystem, ClimberSubsystem climbSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    // Drive backwards for .25 seconds. The driveArcadeAuto command factory
+    // Lower the hooks so they are in frame perimeter
+    new ClimbDown(climbSubsystem).withTimeout(3),
+    // Drive backwards for 3 seconds. The driveArcadeAuto command factory
     // intentionally creates a command which does not end which allows us to control
     // the timing using the withTimeout decorator
-    new AutoDrive(driveSubsystem,0.5,  0.0).withTimeout(3),
+    new AutoDrive(driveSubsystem, .2, 0).withTimeout(1),
+    new AutoDrive(driveSubsystem,0.3,  0.0).withTimeout(6),
+    new AutoDrive(driveSubsystem, 0.2, 0).withTimeout(2),
     // Spin up the launcher for 1 second and then launch balls for 9 seconds, for a
     // total of 10 seconds
-    new Launch(ballSubsystem).withTimeout(2)
+    new LaunchSequence(ballSubsystem).withTimeout(5),
+    new ClimbUp(climbSubsystem).withTimeout(4)
     );
 
 
